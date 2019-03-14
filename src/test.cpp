@@ -2,8 +2,8 @@
 #include "db_manager.h"
 
 using namespace std;
-using namespace linukey::db_manager;
 using namespace sql;
+using namespace linukey::db_manager;
 
 int main() {
     const string db_name = "one_db";
