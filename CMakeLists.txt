@@ -10,6 +10,7 @@ project (cpp-mysql-sdk)
 aux_source_directory(src DIR_SRCS)
 
 add_library(cpp-mysql-sdk ${DIR_SRCS})
-add_executable(test src/test.cpp)
+target_link_libraries(cpp-mysql-sdk mysqlcppconn)
 
-target_link_libraries(test cpp-mysql-sdk mysqlcppconn)
+add_executable(test src/test.cpp)
+target_link_libraries(test cpp-mysql-sdk)

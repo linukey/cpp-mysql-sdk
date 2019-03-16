@@ -62,14 +62,20 @@ public:
     bool TruncateTable(const std::string& table_name);
     
     /*
-     * 查询数据
+     * 查询数据 (全集)
      *
-     * resultset : 查询到的数据集
      * sql : 执行语句
      *
-     * return : 成功 / 失败
+     * return : 查询到的数据集
      */
     std::shared_ptr<sql::ResultSet> SelectData(const std::string& sql);
+
+    /*
+     * 查询数据 (子集)
+     *
+     * sql : 执行语句
+     */
+    std::shared_ptr<sql::ResultSet> SelectData(const std::string& sql, const Parameter& paras);
 
     /*
      * 插入数据
@@ -80,6 +86,26 @@ public:
      * return : 此次操作影响数据条数
      */
     int InsertData(const std::string& sql, const Parameter& paras);
+
+    /*
+     * 更新数据
+     *
+     * sql : 执行语句
+     * paras : 参数
+     *
+     * return : 此次操作影响数据条数
+     */
+     int UpdateData(const std::string& sql, const Parameter& paras);
+
+     /*
+      * 删除数据
+      *
+      * sql : 执行语句
+      * paras : 参数
+      *
+      * return : 此次操作影响数据条数
+      */
+      int DeleteData(const std::string& sql, const Parameter& paras);
 
 private:
     sql::mysql::MySQL_Driver *_driver = nullptr;

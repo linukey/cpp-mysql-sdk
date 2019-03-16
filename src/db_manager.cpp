@@ -106,6 +106,39 @@ shared_ptr<sql::ResultSet> DbManager::SelectData(const string& sql) {
     }
 }
 
+shared_ptr<sql::ResultSet> DbManager::SelectData(const std::string& sql, const Parameter& paras) {
+    try {
+        shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
+
+        for (const auto& para : paras._bigint)
+            statement->setBigInt(para.first, SQLString(para.second));
+        for (const auto& para : paras._boolean)
+            statement->setBoolean(para.first, para.second);
+        for (const auto& para : paras._datetime)
+            statement->setDateTime(para.first, para.second);
+        for (const auto& para : paras._double)
+            statement->setDouble(para.first, para.second);
+        for (const auto& para : paras._int)
+            statement->setInt(para.first, para.second);
+        for (const auto& para : paras._uint)
+            statement->setUInt(para.first, para.second);
+        for (const auto& para : paras._int64)
+            statement->setInt64(para.first, para.second);
+        for (const auto& para : paras._uint64)
+            statement->setUInt64(para.first, para.second);
+        for (const auto& para : paras._null)
+            statement->setNull(para.first, para.second);
+        for (const auto& para : paras._string)
+            statement->setString(para.first, para.second);
+
+        return shared_ptr<sql::ResultSet>(statement->executeQuery());
+    } catch (const SQLException& ex) {
+        LOGOUT(log::FATAL, "sql_execute_fatal! sql:%, reason:%, sql_state:%, errno: %",
+            sql, ex.what(), ex.getSQLState().c_str(), ex.getErrorCode());
+        return shared_ptr<sql::ResultSet>();
+    }
+}
+
 int DbManager::InsertData(const std::string& sql, const Parameter& paras) {
     try {
         shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
@@ -132,6 +165,73 @@ int DbManager::InsertData(const std::string& sql, const Parameter& paras) {
             statement->setString(para.first, para.second);
         }
         
+        return statement->executeUpdate();
+    } catch (const SQLException& ex) {
+        LOGOUT(log::FATAL, "sql_execute_fatal! sql:%, reason:%, sql_state:%, errno: %",
+            sql, ex.what(), ex.getSQLState().c_str(), ex.getErrorCode());
+        return 0;
+    }
+}
+
+int DbManager::DeleteData(const std::string& sql, const Parameter& paras) {
+    try {
+        shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
+
+        for (const auto& para : paras._bigint)
+            statement->setBigInt(para.first, SQLString(para.second));
+        for (const auto& para : paras._boolean)
+            statement->setBoolean(para.first, para.second);
+        for (const auto& para : paras._datetime)
+            statement->setDateTime(para.first, para.second);
+        for (const auto& para : paras._double)
+            statement->setDouble(para.first, para.second);
+        for (const auto& para : paras._int)
+            statement->setInt(para.first, para.second);
+        for (const auto& para : paras._uint)
+            statement->setUInt(para.first, para.second);
+        for (const auto& para : paras._int64)
+            statement->setInt64(para.first, para.second);
+        for (const auto& para : paras._uint64)
+            statement->setUInt64(para.first, para.second);
+        for (const auto& para : paras._null)
+            statement->setNull(para.first, para.second);
+        for (const auto& para : paras._string) {
+            statement->setString(para.first, para.second);
+        }
+        
+        return statement->executeUpdate();
+    } catch (const SQLException& ex) {
+        LOGOUT(log::FATAL, "sql_execute_fatal! sql:%, reason:%, sql_state:%, errno: %",
+            sql, ex.what(), ex.getSQLState().c_str(), ex.getErrorCode());
+        return 0;
+    }
+}
+
+int DbManager::UpdateData(const std::string& sql, const Parameter& paras) {
+    try {
+        shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
+        for (const auto& para : paras._bigint)
+            statement->setBigInt(para.first, SQLString(para.second));
+        for (const auto& para : paras._boolean)
+            statement->setBoolean(para.first, para.second);
+        for (const auto& para : paras._datetime)
+            statement->setDateTime(para.first, para.second);
+        for (const auto& para : paras._double)
+            statement->setDouble(para.first, para.second);
+        for (const auto& para : paras._int)
+            statement->setInt(para.first, para.second);
+        for (const auto& para : paras._uint)
+            statement->setUInt(para.first, para.second);
+        for (const auto& para : paras._int64)
+            statement->setInt64(para.first, para.second);
+        for (const auto& para : paras._uint64)
+            statement->setUInt64(para.first, para.second);
+        for (const auto& para : paras._null)
+            statement->setNull(para.first, para.second);
+        for (const auto& para : paras._string) {
+            statement->setString(para.first, para.second);
+        }
+ 
         return statement->executeUpdate();
     } catch (const SQLException& ex) {
         LOGOUT(log::FATAL, "sql_execute_fatal! sql:%, reason:%, sql_state:%, errno: %",
