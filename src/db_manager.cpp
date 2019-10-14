@@ -31,7 +31,7 @@ DbManager::DbManager(const string& user_name, const string& passwd, const string
     LOGOUT(log::TRACE, "connection db_server %:%", hostname.c_str(), port);
 }
 
-bool DbManager::CreateTable(const string& sql) {
+bool DbManager::CreateTable(const string& sql) const {
     SQLString sql_s(sql);
     // 注意, execute方法返回的true和false，代表两种不同的操作，分别是查询，更新或插入
     // 而不是执行结果的成功或失败。
@@ -49,7 +49,7 @@ bool DbManager::CreateTable(const string& sql) {
     return true;
 }
 
-bool DbManager::DropTable(const string& table_name) {
+bool DbManager::DropTable(const string& table_name) const {
     string sql_string = string("drop table ") + table_name;
     SQLString sql_s(sql_string);
 
@@ -66,7 +66,7 @@ bool DbManager::DropTable(const string& table_name) {
     return true;
 }
 
-bool DbManager::TruncateTable(const string& table_name) {
+bool DbManager::TruncateTable(const string& table_name) const {
     string sql_string = string("truncate table ") + table_name;
     SQLString sql_s(sql_string);
 
@@ -83,7 +83,7 @@ bool DbManager::TruncateTable(const string& table_name) {
     return true;
 }
 
-bool DbManager::UseDb(const std::string& db_name) {
+bool DbManager::UseDb(const std::string& db_name) const {
     try {
         _connection->setSchema(db_name);
     } catch (const SQLException& ex) {
@@ -95,7 +95,7 @@ bool DbManager::UseDb(const std::string& db_name) {
     return true;
 }
 
-shared_ptr<sql::ResultSet> DbManager::SelectData(const string& sql) {
+shared_ptr<sql::ResultSet> DbManager::SelectData(const string& sql) const {
     try {
         shared_ptr<Statement> statement(_connection->createStatement());
         return shared_ptr<sql::ResultSet>(statement->executeQuery(sql));
@@ -106,7 +106,7 @@ shared_ptr<sql::ResultSet> DbManager::SelectData(const string& sql) {
     }
 }
 
-shared_ptr<sql::ResultSet> DbManager::SelectData(const std::string& sql, const Parameter& paras) {
+shared_ptr<sql::ResultSet> DbManager::SelectData(const std::string& sql, const Parameter& paras) const {
     try {
         shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
 
@@ -139,7 +139,7 @@ shared_ptr<sql::ResultSet> DbManager::SelectData(const std::string& sql, const P
     }
 }
 
-int DbManager::InsertData(const std::string& sql, const Parameter& paras) {
+int DbManager::InsertData(const std::string& sql, const Parameter& paras) const {
     try {
         shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
 
@@ -173,7 +173,7 @@ int DbManager::InsertData(const std::string& sql, const Parameter& paras) {
     }
 }
 
-int DbManager::DeleteData(const std::string& sql, const Parameter& paras) {
+int DbManager::DeleteData(const std::string& sql, const Parameter& paras) const {
     try {
         shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
 
@@ -207,7 +207,7 @@ int DbManager::DeleteData(const std::string& sql, const Parameter& paras) {
     }
 }
 
-int DbManager::UpdateData(const std::string& sql, const Parameter& paras) {
+int DbManager::UpdateData(const std::string& sql, const Parameter& paras) const {
     try {
         shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
         for (const auto& para : paras._bigint)

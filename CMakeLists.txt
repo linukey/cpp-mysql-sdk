@@ -11,7 +11,7 @@ link_directories(/usr/local/lib/mysql-connector)
 
 aux_source_directory(src DIR_SRCS)
 
-add_library(cpp-mysql-sdk ${DIR_SRCS})
+add_library(cpp-mysql-sdk SHARED ${DIR_SRCS})
 target_link_libraries(cpp-mysql-sdk mysqlcppconn)
 
 add_executable(test test.cpp)
