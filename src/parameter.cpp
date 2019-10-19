@@ -6,8 +6,7 @@
 using std::make_pair;
 using std::string;
 
-namespace linukey {
-namespace db_manager {
+namespace cpp_mysql {
 
 void Parameter::clear() {
     _bigint.clear();
@@ -62,5 +61,4 @@ void Parameter::setString(int index, const string& val) {
     _string.push_back(make_pair(index, val));
 }
 
-}
 }

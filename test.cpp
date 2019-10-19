@@ -3,7 +3,7 @@
 
 using namespace std;
 using namespace sql;
-using namespace linukey::db_manager;
+using namespace cpp_mysql;
 
 int main() {
     const string db_name = "one_db";

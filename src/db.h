@@ -1,3 +1,6 @@
+#ifndef __CPP_MYSQL_DB_H__
+#define __CPP_MYSQL_DB_H__
+
 #include <iostream>
 #include <mysql_connection.h>
 #include <mysql_driver.h>
@@ -8,3 +11,5 @@
 #include <cppconn/statement.h>
 #include <cppconn/prepared_statement.h>
 #include "db_defs.h"
+
+#endif

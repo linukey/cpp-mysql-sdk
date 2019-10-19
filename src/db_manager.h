@@ -1,5 +1,5 @@
-#ifndef __LINUKEY_DB_LAYER_H__
-#define __LINUKEY_DB_LAYER_H__
+#ifndef __CPP_MYSQL_DB_MYNAGER_H__
+#define __CPP_MYSQL_DB_MYNAGER_H__
 
 #include "db.h"
 #include "parameter.h"
@@ -8,8 +8,7 @@
 #include <vector>
 #include <memory>
 
-namespace linukey {
-namespace db_manager {
+namespace cpp_mysql {
 
 class DbManager {
 
@@ -112,7 +111,6 @@ private:
     std::shared_ptr<sql::Connection> _connection;
 };
 
-}
 }
 
 #endif

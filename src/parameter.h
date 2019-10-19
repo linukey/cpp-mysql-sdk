@@ -1,11 +1,10 @@
-#ifndef __LINUKEY_PARAMETER_H__
-#define __LINUKEY_PARAMETER_H__
+#ifndef __CPP_MYSQL_PARAMETER_H__
+#define __CPP_MYSQL_PARAMETER_H__
 
 #include <iostream>
 #include <vector>
 
-namespace linukey {
-namespace db_manager {
+namespace cpp_mysql {
 
 struct Parameter {
     void setBigInt(int, const std::string&);
@@ -37,7 +36,6 @@ private:
     friend class DbManager;
 };
 
-}
 }
 
 #endif

@@ -5,10 +5,7 @@
 #include <memory>
 #include <vector>
 
-using std::string;
-using std::vector;
-using std::pair;
-using std::shared_ptr;
+using namespace std;
 
 using sql::PreparedStatement;
 using sql::Statement;
@@ -16,10 +13,9 @@ using sql::SQLString;
 using sql::Connection;
 using sql::SQLException;
 
-using linukey::log::LOGOUT;
+using cpp_mysql::log::LOGOUT;
 
-namespace linukey {
-namespace db_manager {
+namespace cpp_mysql {
 
 DbManager::DbManager(const string& user_name, const string& passwd, const string& hostname, const string& port) {
     _driver = sql::mysql::get_mysql_driver_instance();
@@ -83,7 +79,7 @@ bool DbManager::TruncateTable(const string& table_name) const {
     return true;
 }
 
-bool DbManager::UseDb(const std::string& db_name) const {
+bool DbManager::UseDb(const string& db_name) const {
     try {
         _connection->setSchema(db_name);
     } catch (const SQLException& ex) {
@@ -106,7 +102,7 @@ shared_ptr<sql::ResultSet> DbManager::SelectData(const string& sql) const {
     }
 }
 
-shared_ptr<sql::ResultSet> DbManager::SelectData(const std::string& sql, const Parameter& paras) const {
+shared_ptr<sql::ResultSet> DbManager::SelectData(const string& sql, const Parameter& paras) const {
     try {
         shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
 
@@ -139,7 +135,7 @@ shared_ptr<sql::ResultSet> DbManager::SelectData(const std::string& sql, const P
     }
 }
 
-int DbManager::InsertData(const std::string& sql, const Parameter& paras) const {
+int DbManager::InsertData(const string& sql, const Parameter& paras) const {
     try {
         shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
 
@@ -173,7 +169,7 @@ int DbManager::InsertData(const std::string& sql, const Parameter& paras) const 
     }
 }
 
-int DbManager::DeleteData(const std::string& sql, const Parameter& paras) const {
+int DbManager::DeleteData(const string& sql, const Parameter& paras) const {
     try {
         shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
 
@@ -207,7 +203,7 @@ int DbManager::DeleteData(const std::string& sql, const Parameter& paras) const 
     }
 }
 
-int DbManager::UpdateData(const std::string& sql, const Parameter& paras) const {
+int DbManager::UpdateData(const string& sql, const Parameter& paras) const {
     try {
         shared_ptr<PreparedStatement> statement(_connection->prepareStatement(SQLString(sql)));
         for (const auto& para : paras._bigint)
@@ -240,5 +236,4 @@ int DbManager::UpdateData(const std::string& sql, const Parameter& paras) const 
     }
 }
 
-}
 }

@@ -1,5 +1,5 @@
-#ifndef __LINUKEY_LOG_H__
-#define __LINUKEY_LOG_H__
+#ifndef __CPP_MYSQL_LOG_H__
+#define __CPP_MYSQL_LOG_H__
 
 #include <iostream>
 #include <fstream>
@@ -8,9 +8,7 @@
 #include <sstream>
 #include <string>
 
-using std::string;
-
-namespace linukey {
+namespace cpp_mysql {
 namespace log {
 
 enum LOG_LEVEL
@@ -23,7 +21,7 @@ enum LOG_LEVEL
     FATAL
 };
 
-const std::vector<string> LOG_LEVEL_STR
+const std::vector<std::string> LOG_LEVEL_STR
 {
     "TRACE",
     "DEBUG",
@@ -33,32 +31,32 @@ const std::vector<string> LOG_LEVEL_STR
     "FATAL"
 };
 
-const string positive_log_file="mysql.log";
-const string negative_log_file="mysql.log.wf";
+const std::string positive_log_file="mysql.log";
+const std::string negative_log_file="mysql.log.wf";
 
-void msnprintf(string& buffer, string pattern){}
+void msnprintf(std::string& buffer, std::string pattern){}
 template <class T, class ...Args>
-void msnprintf(string& buffer, string pattern, T head, Args... rest) 
+void msnprintf(std::string& buffer, std::string pattern, T head, Args... rest) 
 {
     size_t pos = pattern.find("%");
-    while (pos != string::npos && pos-1 >= 0 && pattern[pos-1] == '\\') {
+    while (pos != std::string::npos && pos-1 >= 0 && pattern[pos-1] == '\\') {
         pattern = pattern.substr(0, pos-1) + pattern.substr(pos);
         pos = pattern.find("%", pos);
     }
 
-    if (pos == string::npos) { throw; }
+    if (pos == std::string::npos) { throw; }
 
     std::stringstream istr;
     istr << head;
     buffer += pattern.substr(0, pos) + istr.str();
 
-    string rest_pattern = pattern.substr(pos+1);
+    std::string rest_pattern = pattern.substr(pos+1);
 
     if (sizeof...(rest) == 0) {
         pos = rest_pattern.find("%");
-        if (pos != string::npos && pos-1 >= 0 && rest_pattern[pos-1] != '\\') { 
+        if (pos != std::string::npos && pos-1 >= 0 && rest_pattern[pos-1] != '\\') { 
             throw; 
-        } else if (pos != string::npos) {
+        } else if (pos != std::string::npos) {
             rest_pattern = rest_pattern.substr(0, pos-1) + rest_pattern.substr(pos);
         }
         buffer += rest_pattern;
@@ -70,7 +68,7 @@ void msnprintf(string& buffer, string pattern, T head, Args... rest)
 template <class T, class ...Args>
 static void LOGOUT(LOG_LEVEL level, T head, Args... rest)
 {
-    string log_file;
+    std::string log_file;
     switch (level){
         case TRACE:
         case DEBUG:
@@ -93,10 +91,10 @@ static void LOGOUT(LOG_LEVEL level, T head, Args... rest)
 
     time_t rawtime;
     time(&rawtime);
-    string time_str(ctime(&rawtime));
+    std::string time_str(ctime(&rawtime));
     time_str = time_str.substr(0, time_str.size()-1);
 
-    string buffer;
+    std::string buffer;
     msnprintf(buffer, head, rest...);
 
     fout << LOG_LEVEL_STR[level] << ":" << time_str << " " << buffer << "\n";

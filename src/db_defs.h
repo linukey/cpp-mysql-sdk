@@ -1,5 +1,5 @@
-#ifndef __LINUKEY_DB_DEFS_H__
-#define __LINUKEY_DB_DEFS_H__
+#ifndef __CPP_MYSQL_DB_DEFS_H__
+#define __CPP_MYSQL_DB_DEFS_H__
 
 #define DB_CHECK(exp, ...) { \
     if (exp) { \
